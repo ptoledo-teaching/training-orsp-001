@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>The Butterfly Effect</title>
+  <!-- Metadata -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Buttefly Effect">
+  <!-- Resources -->
+  <script src="js/genericGA.js"></script>
+  <script src="js/draw.js"></script>
+  <script src="js/tools.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/figure.js"></script>
+  <script src="js/trainer.js"></script>
+  <script src="js/database.js"></script>
+  <script src="js/progressChart.js"></script>
+  <script src="js/referenceBlobs.js"></script>
+  <link rel="stylesheet" href="css/index.css" />
+  <script src="https://kit.fontawesome.com/c89a3d6bf0.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <header>
+    <img id="referenceImage"></img>
+    <div class="svgButterfly" id="bestButterfly">
+      <svg style="background-color: white;"></svg>
+      <svg style="background-color: white;"></svg>
+      <img class="overlay" id="bestButterflyOverlay" style="display: none;"> </img>
+    </div>
+  </header>
+  <main>
+    <textarea id="storeFunction"></textarea>
+    <textarea id="retrieveFunction"></textarea>
+    <div id="control">
+      <table>
+        <tr>
+          <th colspan="4">
+            Inicial Conditions
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <i id="status0" class="far fa-circle"></i>
+          </td>
+          <td>
+            Population size
+          </td>
+          <td>
+            <input id="populationSize" type="number" value="100" min="1" max="9999" required>
+          </td>
+          <td>
+            [units]
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+            <button onclick="trainerInstance.generatePopulation()">Generate</button>
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="4">
+          </th>
+        </tr>
+        <tr>
+          <th colspan="4">
+            Calculate Generation
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <i id="status1" class="far fa-circle"></i>
+          </td>
+          <td>
+            Excercise
+          </td>
+          <td>
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <i id="status2" class="far fa-circle"></i>
+          </td>
+          <td>
+            Elite size
+          </td>
+          <td>
+            <input id="eliteSize" type="number" min="1" value="10" required>
+          </td>
+          <td>
+            [units]
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <i id="status3" class="far fa-circle"></i>
+          </td>
+          <td>
+            Crossover
+          </td>
+          <td>
+            <input id="crossoverProbability" type="number" min="0" max="100" value="10" required>
+          </td>
+          <td>
+            [%]
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <i id="status4" class="far fa-circle"></i>
+          </td>
+          <td>
+            Mutation probability
+          </td>
+          <td>
+            <input id="mutationProbability" type="number" min="0" max="100" value="1" required>
+          </td>
+          <td>
+            [%]
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <i id="status5" class="far fa-circle"></i>
+          </td>
+          <td>
+            Chromosomes extension
+          </td>
+          <td>
+            <input id="chromosomesExtension" type="number" value="1" min="0" max="9999" required>
+          </td>
+          <td>
+            [units]
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+            <button onclick="trainerInstance.calculateGeneration()">Calculate</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td>
+          </td>
+          <td>
+            <input id="multiRun" type="number" value="100" min="0" max="9999" required>
+          </td>
+          <td>
+            [repetitions]
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td id="generationTime">
+          </td>
+          <td>
+            <button onclick="trainerInstance.calculateNGeneration()">N-Calculate</button>
+          </td>
+          <td>
+            <i id="statusN"></i>
+          </td>
+        </tr>
+        <tr>
+          <th colspan="4">
+            Options
+          </th>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td>
+            Superimpose Butterfly
+          </td>
+          <td>
+            <input type="checkbox" onchange="toggleReferenceOverlay()"></input>
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td>
+            Montecarlo trials
+          </td>
+          <td>
+            <input id="montecarloTrials" type="number" value="400" min="1" max="40000" required>
+          </td>
+          <td>
+            [trials]
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td>
+            Save ALL parameters
+          </td>
+          <td>
+            <button onclick="saveParameters()">Save</button>
+          </td>
+          <td>
+            <i id="statusN"></i>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td>
+            Clear DB
+          </td>
+          <td>
+            <button onclick="databaseInstance.clear()">Clear</button>
+          </td>
+          <td>
+            <i id="statusN"></i>
+          </td>
+        </tr>
+      </table>
+      <canvas id="myChart" width="400" height="200"></canvas>
+    </div>
+  </main>
+</body>
+
+</html>
